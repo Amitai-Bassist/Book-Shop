@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Books Shop</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/lib/bootstrap/bootstrap.css">    
+</head>
+<body onload="onInit(12345)">
+    <section class="container">
+        <div class="lang btn-group position-absolute start-50" role="group" aria-label="Basic radio toggle button group">
+            <input type="radio"  class="btn-check" name="lan" id="lan1" autocomplete="off" checked>
+            <label onclick="onSetLang('en')" class="btn btn-outline-primary" for="btnradio3">EN</label>
+            
+            <input type="radio"  class="btn-check" name="lan" id="lan2" autocomplete="off" >
+            <label onclick="onSetLang('he')"  class="btn btn-outline-primary" for="btnradio4">HE</label> 
+        </div> <br>
+        <h1 class="m-3 text-center" data-trans="title">Welcome to my bookshop!</h1>
+        <div class="btn-group position-absolute start-50" role="group" aria-label="Basic radio toggle button group">
+            <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off">
+            <label onclick="onChangeMode('table')" class="btn btn-outline-primary" for="btnradio1"><img src="/images/list.jpg" alt=""></label>
+            
+            <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off" >
+            <label onclick="onChangeMode('cards')" class="btn btn-outline-primary" for="btnradio2"><img src="/images/app.jpg" alt=""></label> 
+          
+          </div> <br>
+        <button class="m-2 btn btn-primary" data-trans="create" onclick="onAddBook()">create new book</button><br>
+        <div class="mb-2 container input-group">
+            <input type="text" class="form-control text-filter" data-trans="search-placeholder" oninput="onFilterByTxt(this.value)" placeholder="type to search" aria-label="Recipient's username" aria-describedby="button-addon2">
+            <button class=" btn btn-primary" type="button" data-trans="search" id="button-addon2">Search</button>
+        </div>
+        <div class="text-center" id="slider-container">
+            <div id="slider-bar" class="mb-2 theme-light" data-max="60" data-min="1" data-precision="2">
+                <span class="bg-secondary" data-trans="rate">minimum rate</span>
+               <input oninput="onSetRateFilter(this.value)" type="range" id="slider-handle-1" class="slider-handles min-rate" min="0" max="10" value="0" title=element/>
+               <output for="slider-handle-1" id="slider-output-1"></output>
+               <span class="bg-success rate-val"></span>
+               <span class="bg-secondary" data-trans="price">maximum price</span>
+               <input oninput="onSetPriceFilter(this.value)" type="range" id="slider-handle-2" class="slider-handles max-price" min="0" max="700" value="700"/>
+               <output for="slider-handle-2" id="slider-output-2"></output>
+               <span class="bg-success price-val"></span>
+            </div>
+        </div>
+        <div class="mb-2 text-center">
+            <span class="bg-secondary" data-trans="sort-by">sort by</span>
+            <select class=" sort-books" onchange="onSetSortBy()">
+                <option data-trans="sort-price" value="price">Books price</option>
+                <option data-trans="sort-name" value="name">Books name</option>  
+            </select>
+            <label>
+                <span class="bg-secondary" data-trans="descending">Descending</span> 
+                <input class="sort-desc form-check-input me-1" type="checkbox" oninput="onSetSortBy()" value="" id="firstCheckboxStretched">
+            </label>
+        </div>
+        
+        <table class="bg-light container table" style="display:'none' ;">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th data-trans="id" scope="col">Id</th>
+                    <th data-trans="book-name" scope="col">Title</th>
+                    <th data-trans="price-str" scope="col">Price</th>
+                    <th data-trans="actions" scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+        <section class="books-for-shop d-flex flex-row justify-content-around flex-wrap mb-3"></section>
+
+        <h4 class="container bg-secondary text-center"><span data-trans="page">page</span><span class="page-num">1</span></h4>
+
+        <div class=" btn-toolbar " role="toolbar" aria-label="Toolbar with button groups">
+            <div class=" bg-light btn-group me-2" role="group" aria-label="First group">
+              <button onclick="onChangePage('prev')" type="button" class="previous btn btn-primary" data-trans="previous">⏪previous page</button>
+              <button onclick="onChangePage('0')" type="button" class="first btn btn-primary" disabled>1</button>
+              <button onclick="onChangePage('1')" type="button" class="second btn btn-primary">2</button>
+              <button onclick="onChangePage('2')" type="button" class="third btn btn-primary">3</button>
+              <button onclick="onChangePage('next')" type="button" class="next btn btn-primary" data-trans="next">Next Page⏩</button>
+            </div>
+        </div>
+    </section>
+        <!-- Scrollable modal -->
+        
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-scrollable">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <h2 class="books-name"></h2>
+                        <p data-trans="lorem">Lorem ipsum .</p>
+                        <span class="book-img"></span>
+                        <span data-trans="rate-in-modal">Rate:</span>
+                        <div class="book-rates">
+              
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+    
+    <script src="/js/util.js"></script>
+    <script src="/js/services/storage.service.js"></script>
+    <script src="/js/services/book.service.js"></script>
+    <script src="/js/services/i18n.service.js"></script>
+    <script src="/js/book.controller.js"></script>
+    <script src="/lib/bootstrap/bootstrap.bundel.js"></script>
+</body>
+</html>

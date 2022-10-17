@@ -1,0 +1,16 @@
+
+body{
+    height: 100vh;
+    font-size: large;
+    text-align: center;
+    /* background-color: #aaa19c; */
+    background-image: url("/images/libery.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+body.rtl {
+    direction: rtl;
+}
+
